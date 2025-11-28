@@ -11,7 +11,7 @@ import java.nio.file.*;
 
 /**
  * FitMatch - Intelligent Team Formation System
- * Version 2.1 - Updated with personality survey questions
+ * Version 2.2 - Updated with role-based access control
  */
 public class FitMatchApplication {
 
@@ -21,16 +21,27 @@ public class FitMatchApplication {
     private static final int DEFAULT_TEAM_SIZE = 4;
     private static final int MIN_TEAM_SIZE = 3;
 
+    // User roles
+    private enum UserRole {
+        PARTICIPANT, MANAGEMENT
+    }
+
+    // Passwords
+    private static final String PARTICIPANT_PASSWORD = "Participant123";
+    private static final String MANAGEMENT_PASSWORD = "Management123";
+
     private Scanner scanner;
     private TeamBuilder teamBuilder;
     private List<Participant> loadedParticipants;
     private List<Team> formedTeams;
+    private UserRole currentUserRole;
 
     public FitMatchApplication() {
         this.scanner = new Scanner(System.in);
         this.teamBuilder = new TeamBuilder();
         this.loadedParticipants = new ArrayList<>();
         this.formedTeams = new ArrayList<>();
+        this.currentUserRole = null;
         FileLogger.setupLogging();
     }
 
@@ -54,40 +65,18 @@ public class FitMatchApplication {
         boolean running = true;
         while (running) {
             try {
-                printMainMenu();
-                int choice = getUserChoice();
+                // Role selection and authentication
+                if (currentUserRole == null) {
+                    if (!authenticateUser()) {
+                        continue;
+                    }
+                }
 
-                switch (choice) {
-                    case 1:
-                        autoLoadParticipants();
-                        break;
-                    case 2:
-                        addNewParticipant();
-                        break;
-                    case 3:
-                        createSampleData();
-                        break;
-                    case 4:
-                        formTeams();
-                        break;
-                    case 5:
-                        displayLoadedParticipants();
-                        break;
-                    case 6:
-                        displayFormedTeams();
-                        break;
-                    case 7:
-                        saveTeamsToFile();
-                        break;
-                    case 8:
-                        displayStatistics();
-                        break;
-                    case 9:
-                        running = false;
-                        printExitMessage();
-                        break;
-                    default:
-                        System.out.println("\nInvalid choice. Please enter 1-9.");
+                // Display role-appropriate menu
+                if (currentUserRole == UserRole.PARTICIPANT) {
+                    running = handleParticipantMenu();
+                } else {
+                    running = handleManagementMenu();
                 }
 
             } catch (Exception e) {
@@ -98,18 +87,146 @@ public class FitMatchApplication {
         }
     }
 
+    private boolean authenticateUser() {
+        System.out.println("\n================================================================");
+        System.out.println("                    ROLE SELECTION                            ");
+        System.out.println("================================================================");
+        System.out.println("  1. Participant");
+        System.out.println("  2. Management");
+        System.out.println("  3. Exit");
+        System.out.println("================================================================");
+        System.out.print("Select your role (1-3): ");
+
+        int roleChoice = getUserChoice();
+
+        if (roleChoice == 3) {
+            printExitMessage();
+            System.exit(0);
+        }
+
+        if (roleChoice != 1 && roleChoice != 2) {
+            System.out.println("\nInvalid choice. Please try again.");
+            return false;
+        }
+
+        // Password authentication
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine().trim();
+
+        if (roleChoice == 1) {
+            if (password.equals(PARTICIPANT_PASSWORD)) {
+                currentUserRole = UserRole.PARTICIPANT;
+                System.out.println("\n✓ Authenticated as Participant");
+                FileLogger.logInfo("Application", "Participant logged in");
+                return true;
+            }
+        } else if (roleChoice == 2) {
+            if (password.equals(MANAGEMENT_PASSWORD)) {
+                currentUserRole = UserRole.MANAGEMENT;
+                System.out.println("\n✓ Authenticated as Management");
+                FileLogger.logInfo("Application", "Management logged in");
+                return true;
+            }
+        }
+
+        System.out.println("\n✗ Authentication failed. Incorrect password.");
+        return false;
+    }
+
+    private boolean handleParticipantMenu() {
+        printParticipantMenu();
+        int choice = getUserChoice();
+
+        switch (choice) {
+            case 1:
+                addNewParticipant();
+                break;
+            case 2:
+                displayLoadedParticipants();
+                break;
+            case 3:
+                // Return to role selection
+                currentUserRole = null;
+                System.out.println("\nReturning to role selection...");
+                break;
+            case 4:
+                printExitMessage();
+                return false;
+            default:
+                System.out.println("\nInvalid choice. Please enter 1-4.");
+        }
+
+        return true;
+    }
+
+    private boolean handleManagementMenu() {
+        printManagementMenu();
+        int choice = getUserChoice();
+
+        switch (choice) {
+            case 1:
+                autoLoadParticipants();
+                break;
+            case 2:
+                addNewParticipant();
+                break;
+            case 3:
+                createSampleData();
+                break;
+            case 4:
+                formTeams();
+                break;
+            case 5:
+                displayLoadedParticipants();
+                break;
+            case 6:
+                displayFormedTeams();
+                break;
+            case 7:
+                saveTeamsToFile();
+                break;
+            case 8:
+                displayStatistics();
+                break;
+            case 9:
+                // Return to role selection
+                currentUserRole = null;
+                System.out.println("\nReturning to role selection...");
+                break;
+            case 10:
+                printExitMessage();
+                return false;
+            default:
+                System.out.println("\nInvalid choice. Please enter 1-10.");
+        }
+
+        return true;
+    }
+
     private void printWelcomeBanner() {
         System.out.println("\n================================================================");
         System.out.println("                                                                ");
         System.out.println("       TEAMMATE - Intelligent Team Formation System            ");
-        System.out.println("        University Gaming Club Team Builder v2.1               ");
+        System.out.println("        University Gaming Club Team Builder                    ");
         System.out.println("                                                                ");
         System.out.println("================================================================\n");
     }
 
-    private void printMainMenu() {
+    private void printParticipantMenu() {
         System.out.println("\n================================================================");
-        System.out.println("                       MAIN MENU                              ");
+        System.out.println("                  PARTICIPANT MENU                            ");
+        System.out.println("================================================================");
+        System.out.println("  1.  Add New Participant (Complete Survey)                  ");
+        System.out.println("  2.  View Participants                                       ");
+        System.out.println("  3.  Return to Role Selection                                ");
+        System.out.println("  4.  Exit                                                    ");
+        System.out.println("================================================================");
+        System.out.print("Enter choice (1-4): ");
+    }
+
+    private void printManagementMenu() {
+        System.out.println("\n================================================================");
+        System.out.println("                    MANAGEMENT MENU                           ");
         System.out.println("================================================================");
         System.out.println("  1.  Load Participants (Auto-detect)                        ");
         System.out.println("  2.  Add New Participant                                     ");
@@ -119,9 +236,10 @@ public class FitMatchApplication {
         System.out.println("  6.  View Formed Teams                                       ");
         System.out.println("  7.  Save Teams to CSV                                       ");
         System.out.println("  8.  Display Statistics                                      ");
-        System.out.println("  9.  Exit                                                    ");
+        System.out.println("  9.  Return to Role Selection                                ");
+        System.out.println("  10. Exit                                                    ");
         System.out.println("================================================================");
-        System.out.print("Enter choice (1-9): ");
+        System.out.print("Enter choice (1-10): ");
     }
 
     private void printExitMessage() {
@@ -140,8 +258,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 1: Auto-load participants
-     * Priority: allParticipants.csv -> participants_sample.csv
+     * Option 1 (Management): Auto-load participants
      */
     private void autoLoadParticipants() {
         System.out.println("\n----------- LOAD PARTICIPANTS -----------");
@@ -149,20 +266,15 @@ public class FitMatchApplication {
         try {
             List<Participant> loaded = new ArrayList<>();
 
-            // Try allParticipants.csv first
             if (Files.exists(Paths.get(ALL_PARTICIPANTS_FILE))) {
                 System.out.println("Loading from: " + ALL_PARTICIPANTS_FILE);
                 loaded = CSVDataHandler.readParticipantsFromCSV(ALL_PARTICIPANTS_FILE);
                 System.out.println("Loaded " + loaded.size() + " participants from " + ALL_PARTICIPANTS_FILE);
-            }
-            // Fallback to sample file
-            else if (Files.exists(Paths.get(SAMPLE_FILE))) {
+            } else if (Files.exists(Paths.get(SAMPLE_FILE))) {
                 System.out.println(ALL_PARTICIPANTS_FILE + " not found.");
                 System.out.println("Loading from: " + SAMPLE_FILE);
                 loaded = CSVDataHandler.readParticipantsFromCSV(SAMPLE_FILE);
                 System.out.println("Loaded " + loaded.size() + " participants from " + SAMPLE_FILE);
-
-                // Copy sample to allParticipants for future use
                 copyToAllParticipants(loaded);
             } else {
                 System.out.println("No participant files found.");
@@ -192,30 +304,26 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 2: Add new participant with 5-question survey
+     * Add new participant with 5-question survey (available to both roles)
      */
     private void addNewParticipant() {
         System.out.println("\n----------- ADD NEW PARTICIPANT -----------");
         FileLogger.logInfo("Application", "Adding new participant");
 
         try {
-            // Get next ID
             String participantId = getNextParticipantId();
             System.out.println("Assigned ID: " + participantId);
 
-            // Name
             String name = getValidatedInput(
                     "Enter Name: ",
                     input -> InputValidator.validateName(input)
             );
 
-            // Email
             String email = getValidatedInput(
                     "Enter Email: ",
                     input -> InputValidator.validateEmail(input).toLowerCase()
             );
 
-            // Game
             System.out.println("\nAvailable Games:");
             GameType[] games = GameType.values();
             for (int i = 0; i < games.length; i++) {
@@ -223,11 +331,9 @@ public class FitMatchApplication {
             }
             GameType game = games[getNumberChoice("Select game (1-" + games.length + "): ", 1, games.length) - 1];
 
-            // Skill level
             System.out.println("\nSkill Level (1=Beginner, 10=Expert):");
             int skillLevel = getNumberChoice("Enter skill (1-10): ", 1, 10);
 
-            // Role
             System.out.println("\nAvailable Roles:");
             PlayingRole[] roles = PlayingRole.values();
             for (int i = 0; i < roles.length; i++) {
@@ -235,7 +341,6 @@ public class FitMatchApplication {
             }
             PlayingRole role = roles[getNumberChoice("Select role (1-" + roles.length + "): ", 1, roles.length) - 1];
 
-            // 5-Question Personality Survey
             System.out.println("\n========== PERSONALITY ASSESSMENT ==========");
             System.out.println("Please rate each statement from 1 (Strongly Disagree) to 5 (Strongly Agree):");
             System.out.println();
@@ -256,12 +361,10 @@ public class FitMatchApplication {
                 System.out.println();
             }
 
-            // Calculate personality score (scale to 100)
-            int personalityScore = totalScore * 4; // 5-25 -> 20-100
+            int personalityScore = totalScore * 4;
 
-            // Create participant
             Participant newParticipant = new Participant(
-                    participantId, name, email, 20, // Default age
+                    participantId, name, email, 20,
                     game, skillLevel, role, personalityScore
             );
 
@@ -377,7 +480,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 3: Create sample data
+     * Option 3 (Management): Create sample data
      */
     private void createSampleData() {
         System.out.println("\n----------- CREATE SAMPLE DATA -----------");
@@ -396,7 +499,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 4: Form teams with strict rules
+     * Option 4 (Management): Form teams with strict rules
      */
     private void formTeams() {
         System.out.println("\n----------- FORM TEAMS -----------");
@@ -406,7 +509,6 @@ public class FitMatchApplication {
             return;
         }
 
-        // Check for leaders
         long leaderCount = loadedParticipants.stream()
                 .filter(p -> p.getPersonalityType() == PersonalityType.LEADER)
                 .count();
@@ -464,7 +566,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 5: Display participants
+     * Display participants (available to both roles)
      */
     private void displayLoadedParticipants() {
         System.out.println("\n----------- LOADED PARTICIPANTS -----------");
@@ -491,7 +593,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 6: Display teams
+     * Option 6 (Management): Display teams
      */
     private void displayFormedTeams() {
         System.out.println("\n----------- FORMED TEAMS -----------");
@@ -507,7 +609,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 7: Save teams
+     * Option 7 (Management): Save teams
      */
     private void saveTeamsToFile() {
         System.out.println("\n----------- SAVE TEAMS -----------");
@@ -537,7 +639,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 8: Statistics
+     * Option 8 (Management): Statistics
      */
     private void displayStatistics() {
         System.out.println("\n----------- STATISTICS -----------");

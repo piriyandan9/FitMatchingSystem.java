@@ -27,8 +27,8 @@ public class FitMatchApplication {
     }
 
     // Passwords
-    private static final String PARTICIPANT_PASSWORD = "Participant123";
-    private static final String MANAGEMENT_PASSWORD = "Management123";
+    private static final String PARTICIPANT_PASSWORD = "Piri1";
+    private static final String MANAGEMENT_PASSWORD = "Piri2";
 
     private Scanner scanner;
     private TeamBuilder teamBuilder;

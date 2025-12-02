@@ -63,6 +63,7 @@ public class FitMatchApplication {
         FileLogger.logInfo("Application", "FitMatch system started");
 
         boolean running = true;
+        this.autoLoadParticipants();
         while (running) {
             try {
                 // Role selection and authentication
@@ -165,35 +166,29 @@ public class FitMatchApplication {
 
         switch (choice) {
             case 1:
-                autoLoadParticipants();
-                break;
-            case 2:
                 addNewParticipant();
                 break;
-            case 3:
-                createSampleData();
-                break;
-            case 4:
+            case 2:
                 formTeams();
                 break;
-            case 5:
+            case 3:
                 displayLoadedParticipants();
                 break;
-            case 6:
+            case 4:
                 displayFormedTeams();
                 break;
-            case 7:
+            case 5:
                 saveTeamsToFile();
                 break;
-            case 8:
+            case 6:
                 displayStatistics();
                 break;
-            case 9:
+            case 7:
                 // Return to role selection
                 currentUserRole = null;
                 System.out.println("\nReturning to role selection...");
                 break;
-            case 10:
+            case 8:
                 printExitMessage();
                 return false;
             default:
@@ -228,16 +223,14 @@ public class FitMatchApplication {
         System.out.println("\n================================================================");
         System.out.println("                    MANAGEMENT MENU                           ");
         System.out.println("================================================================");
-        System.out.println("  1.  Load Participants (Auto-detect)                        ");
-        System.out.println("  2.  Add New Participant                                     ");
-        System.out.println("  3.  Create Sample Data File                                 ");
-        System.out.println("  4.  Form Teams (Min 3, 1-2 Leaders per team)               ");
-        System.out.println("  5.  View Loaded Participants                                ");
-        System.out.println("  6.  View Formed Teams                                       ");
-        System.out.println("  7.  Save Teams to CSV                                       ");
-        System.out.println("  8.  Display Statistics                                      ");
-        System.out.println("  9.  Return to Role Selection                                ");
-        System.out.println("  10. Exit                                                    ");
+        System.out.println("  1.  Add New Participant                                     ");
+        System.out.println("  2.  Form Teams (Min 3, 1-2 Leaders per team)               ");
+        System.out.println("  3.  View Loaded Participants                                ");
+        System.out.println("  4.  View Formed Teams                                       ");
+        System.out.println("  5.  Save Teams to CSV                                       ");
+        System.out.println("  6.  Display Statistics                                      ");
+        System.out.println("  7.  Return to Role Selection                                ");
+        System.out.println("  8. Exit                                                    ");
         System.out.println("================================================================");
         System.out.print("Enter choice (1-10): ");
     }

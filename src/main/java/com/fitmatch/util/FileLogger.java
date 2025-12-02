@@ -37,7 +37,7 @@ public class FileLogger {
             });
 
             // File handler
-            fileHandler = new FileHandler(LOG_FILE, true);
+            fileHandler = new FileHandler(LOG_FILE, false);
             fileHandler.setLevel(Level.ALL);
             fileHandler.setFormatter(new SimpleFormatter() {
                 @Override

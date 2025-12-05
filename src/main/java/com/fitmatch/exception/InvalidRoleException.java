@@ -1,4 +1,3 @@
-// ================== InvalidRoleException.java ==================
 package com.fitmatch.exception;
 
 /**

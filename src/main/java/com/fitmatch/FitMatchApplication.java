@@ -9,10 +9,6 @@ import java.util.*;
 import java.io.*;
 import java.nio.file.*;
 
-/**
- * FitMatch - Intelligent Team Formation System
- * Version 2.2 - Updated with role-based access control
- */
 public class FitMatchApplication {
 
     private static final String ALL_PARTICIPANTS_FILE = "allParticipants.csv";
@@ -251,7 +247,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 1 (Management): Auto-load participants
+     *  (Management): Auto-load participants
      */
     private void autoLoadParticipants() {
         System.out.println("\n----------- LOAD PARTICIPANTS -----------");
@@ -473,7 +469,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 3 (Management): Create sample data
+     * Option  (Management): Create sample data
      */
     private void createSampleData() {
         System.out.println("\n----------- CREATE SAMPLE DATA -----------");
@@ -492,7 +488,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 4 (Management): Form teams with strict rules
+     * Option 2(Management): Form teams with strict rules
      */
     private void formTeams() {
         System.out.println("\n----------- FORM TEAMS -----------");
@@ -586,7 +582,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 6 (Management): Display teams
+     * Option 4 (Management): Display teams
      */
     private void displayFormedTeams() {
         System.out.println("\n----------- FORMED TEAMS -----------");
@@ -602,7 +598,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 7 (Management): Save teams
+     * Option 5 (Management): Save teams
      */
     private void saveTeamsToFile() {
         System.out.println("\n----------- SAVE TEAMS -----------");
@@ -632,7 +628,7 @@ public class FitMatchApplication {
     }
 
     /**
-     * Option 8 (Management): Statistics
+     * Option 6 (Management): Statistics
      */
     private void displayStatistics() {
         System.out.println("\n----------- STATISTICS -----------");

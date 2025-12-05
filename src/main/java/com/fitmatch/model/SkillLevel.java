@@ -1,4 +1,3 @@
-// ================== SkillLevel.java ==================
 package com.fitmatch.model;
 
 /**

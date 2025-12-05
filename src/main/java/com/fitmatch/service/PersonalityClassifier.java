@@ -3,17 +3,7 @@ package com.fitmatch.service;
 import com.fitmatch.model.PersonalityType;
 import com.fitmatch.exception.InvalidPersonalityScoreException;
 
-/**
- * Service class for classifying personality types.
- *
- * Survey: 5 questions, each rated 1-5
- * Total: 5-25, scaled x4 to 20-100
- *
- * Classification:
- * - Leader: 90-100
- * - Balanced: 70-89
- * - Thinker: 50-69
- */
+
 public class PersonalityClassifier {
 
     public static final int MIN_SCORE = 20;  // 5 questions x 1 x 4

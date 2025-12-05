@@ -1,4 +1,3 @@
-// ================== EmailFormatException.java ==================
 package com.fitmatch.exception;
 
 /**

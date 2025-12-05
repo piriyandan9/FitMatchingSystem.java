@@ -1,4 +1,3 @@
-// ================== TeamFormationException.java ==================
 package com.fitmatch.exception;
 
 /**

@@ -3,13 +3,6 @@ package com.fitmatch.model;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Represents a team with strict validation rules.
- * Rules:
- * - Min 3 members
- * - Max 2 leaders per team
- * - Must have at least 1 leader
- */
 public class Team {
 
     private String teamId;

@@ -1,4 +1,3 @@
-// ================== TeamTest.java ==================
 package com.fitmatch.model;
 
 import com.fitmatch.exception.*;
@@ -7,11 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 
-/**
- * Comprehensive unit tests for Team class.
- * Tests: Team creation, member management, metrics calculation, validation.
- * Updated to match actual implementation with email and personality score.
- */
 class TeamTest {
 
     private Team team;

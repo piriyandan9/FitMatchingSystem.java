@@ -1,10 +1,11 @@
-// ================== ConcurrencyException.java ==================
+
 package com.fitmatch.exception;
 
 /**
  * Exception thrown when concurrent processing encounters issues.
  * Wraps thread-related exceptions for cleaner handling.
  */
+
 public class ConcurrencyException extends RuntimeException {
 
     private final String threadName;

@@ -1,4 +1,3 @@
-// ================== PlayingRole.java ==================
 package com.fitmatch.model;
 
 /**

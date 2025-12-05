@@ -4,10 +4,6 @@ import com.fitmatch.service.PersonalityClassifier;
 import com.fitmatch.util.InputValidator;
 import com.fitmatch.exception.*;
 
-/**
- * Represents a gaming club participant with personality assessment.
- * Version 2.1 - Updated for auto-personality detection
- */
 public class Participant {
 
     // Core identification

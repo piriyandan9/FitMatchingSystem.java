@@ -1,4 +1,4 @@
-// ================== ParticipantTest.java ==================
+
 package com.fitmatch.model;
 
 import com.fitmatch.exception.*;
@@ -7,11 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Comprehensive unit tests for Participant class.
- * Tests: Constructor validation, getters, personality classification, business logic.
- * Updated to match actual implementation with email and personality score.
- */
 class ParticipantTest {
 
     // ==================== CONSTRUCTOR TESTS ====================

@@ -1,4 +1,4 @@
-// ================== InvalidPersonalityScoreException.java ==================
+
 package com.fitmatch.exception;
 
 /**

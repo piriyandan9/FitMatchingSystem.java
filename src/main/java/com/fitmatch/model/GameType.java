@@ -1,13 +1,8 @@
-// ================== GameType.java ==================
 package com.fitmatch.model;
 
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Enumeration for game/sport types available in the gaming club.
- * Updated with: Chess, FIFA, Basketball, CS:GO, DOTA 2, Valorant
- */
 public enum GameType {
     CHESS("Chess", GameCategory.SPORT, 2,
             Arrays.asList("Strategic Player", "Tactical Player")),

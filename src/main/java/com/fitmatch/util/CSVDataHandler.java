@@ -9,10 +9,6 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-/**
- * Utility class for handling CSV file operations.
- * Updated to match new CSV format with Email field.
- */
 public class CSVDataHandler {
 
     private static final Logger LOGGER = Logger.getLogger(CSVDataHandler.class.getName());

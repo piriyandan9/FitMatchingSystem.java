@@ -1,9 +1,5 @@
-// ================== GameCategory.java ==================
 package com.fitmatch.model;
 
-/**
- * Categorizes games into ESports and Physical Sports
- */
 public enum GameCategory {
     ESPORT("E-Sport", "Electronic/Video Game Competition"),
     SPORT("Sport", "Physical Sport Activity");

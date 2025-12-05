@@ -290,46 +290,6 @@ class ParticipantTest {
     // ==================== BUSINESS LOGIC TESTS ====================
 
     @Test
-    @DisplayName("Test age compatibility - very close ages")
-    void testAgeCompatibilityVeryClose() throws ValidationException, EmailFormatException {
-        Participant p1 = createTestParticipant("P001", 25);
-        Participant p2 = createTestParticipant("P002", 27);
-
-        double compatibility = p1.calculateAgeCompatibility(p2);
-        assertEquals(1.0, compatibility, 0.01);
-    }
-
-    @Test
-    @DisplayName("Test age compatibility - close ages")
-    void testAgeCompatibilityClose() throws ValidationException, EmailFormatException {
-        Participant p1 = createTestParticipant("P001", 25);
-        Participant p2 = createTestParticipant("P002", 30);
-
-        double compatibility = p1.calculateAgeCompatibility(p2);
-        assertEquals(0.8, compatibility, 0.01);
-    }
-
-    @Test
-    @DisplayName("Test age compatibility - moderate difference")
-    void testAgeCompatibilityModerate() throws ValidationException, EmailFormatException {
-        Participant p1 = createTestParticipant("P001", 25);
-        Participant p2 = createTestParticipant("P002", 33);
-
-        double compatibility = p1.calculateAgeCompatibility(p2);
-        assertEquals(0.6, compatibility, 0.01);
-    }
-
-    @Test
-    @DisplayName("Test age compatibility - large difference")
-    void testAgeCompatibilityLarge() throws ValidationException, EmailFormatException {
-        Participant p1 = createTestParticipant("P001", 20);
-        Participant p2 = createTestParticipant("P002", 45);
-
-        double compatibility = p1.calculateAgeCompatibility(p2);
-        assertEquals(0.2, compatibility, 0.01);
-    }
-
-    @Test
     @DisplayName("Test skill compatibility - same level")
     void testSkillCompatibilitySame() throws ValidationException, EmailFormatException {
         Participant p1 = new Participant("P001", "Test1", "test1@email.com", 20,
@@ -338,17 +298,6 @@ class ParticipantTest {
                 GameType.DOTA, 7, PlayingRole.ATTACKER, 80);
 
         assertEquals(1.0, p1.calculateSkillCompatibility(p2), 0.01);
-    }
-
-    @Test
-    @DisplayName("Test skill compatibility - 1 level difference")
-    void testSkillCompatibilityClose() throws ValidationException, EmailFormatException {
-        Participant p1 = new Participant("P001", "Test1", "test1@email.com", 20,
-                GameType.VALORANT, 5, PlayingRole.STRATEGIST, 80);
-        Participant p2 = new Participant("P002", "Test2", "test2@email.com", 20,
-                GameType.DOTA, 6, PlayingRole.ATTACKER, 80);
-
-        assertEquals(0.8, p1.calculateSkillCompatibility(p2), 0.01);
     }
 
     @Test

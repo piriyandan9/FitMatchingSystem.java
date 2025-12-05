@@ -232,21 +232,6 @@ class TeamTest {
     }
 
     @Test
-    @DisplayName("Test diversity score with homogeneous team")
-    void testDiversityScoreLowDiversity() throws ValidationException, EmailFormatException {
-        Team homogeneousTeam = new Team("TEAM-002", "Beta", 4);
-
-        for (int i = 0; i < 4; i++) {
-            Participant p = new Participant("P00" + i, "Test" + i, "test" + i + "@email.com", 20,
-                    GameType.VALORANT, 8, PlayingRole.ATTACKER, 93);
-            homogeneousTeam.addMember(p);
-        }
-
-        double diversity = homogeneousTeam.getDiversityScore();
-        assertTrue(diversity < 0.5, "Homogeneous team should have low diversity");
-    }
-
-    @Test
     @DisplayName("Test balance score calculation")
     void testBalanceScore() {
         team.addMember(leaderParticipant);

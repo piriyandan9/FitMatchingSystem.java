@@ -121,16 +121,6 @@ public class Participant {
         return !"Unassigned".equals(assignedTeam);
     }
 
-    public double calculateAgeCompatibility(Participant other) {
-        int ageDifference = Math.abs(this.age - other.age);
-
-        if (ageDifference <= 3) return 1.0;
-        if (ageDifference <= 6) return 0.8;
-        if (ageDifference <= 10) return 0.6;
-        if (ageDifference <= 15) return 0.4;
-        return 0.2;
-    }
-
     public double calculateSkillCompatibility(Participant other) {
         int skillDiff = Math.abs(this.skillLevel - other.skillLevel);
 
